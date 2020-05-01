@@ -55,9 +55,10 @@ pipeline {
         // }
         stage('Deploy Prod') {
             steps {
-                // sh "docker-compose build"
-                // sh "docker-compose up -d"
-                sh "docker run hello-world"
+                sh "chmod 770 docker-compose.yml"
+                sh "docker-compose build"
+                sh "docker-compose up -d"
+                // sh "docker run hello-world"
             }
         }
     }
