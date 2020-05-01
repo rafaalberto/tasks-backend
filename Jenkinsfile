@@ -45,14 +45,14 @@ pipeline {
                 }
             }
         }
-        stage('Functional Test') {
-            steps {
-                dir('functional-test') {
-                    git credentialsId: 'github_login', url: 'https://github.com/rafaalberto/selenium-tasks-test'
-                    sh "mvn test"
-                }
-            }
-        }
+        // stage('Functional Test') {
+        //     steps {
+        //         dir('functional-test') {
+        //             git credentialsId: 'github_login', url: 'https://github.com/rafaalberto/selenium-tasks-test'
+        //             sh "mvn test"
+        //         }
+        //     }
+        // }
         stage('Deploy Prod') {
             steps {
                 sh "sudo docker-compose build"
