@@ -36,6 +36,14 @@ pipeline {
                 deploy adapters: [tomcat9(credentialsId: 'Tomcat', path: '', url: 'http://localhost:8001')], contextPath: 'tasks-backend', war: 'target/tasks-backend.war'
             }
         }
+        stage('Functional Test') {
+            steps {
+                dir('functional-test') {
+                    git credentialsId: 'github_login', url: 'https://github.com/rafaalberto/selenium-tasks-test'
+                    sh "mvn test"
+                }
+            }
+        }
         stage('Deploy Frontend') {
             steps {
                 dir('frontend') {
@@ -45,12 +53,10 @@ pipeline {
                 }
             }
         }
-        stage('Functional Test') {
+        stage('Deploy Prod') {
             steps {
-                dir('functional-test') {
-                    git credentialsId: 'github_login', url: 'https://github.com/rafaalberto/selenium-tasks-test'
-                    sh "mvn test"
-                }
+                sh "docker-compose build"
+                sh "docker-compose up -d"
             }
         }
     }
